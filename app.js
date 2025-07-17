@@ -10,6 +10,7 @@ let messages =   {
 
 
 async function sendMessage() {
+    console.log(messages);
     const userMessage = document.querySelector(".chat-window input").value;
 
     if (userMessage.length){
@@ -22,13 +23,27 @@ async function sendMessage() {
             `);
     
     const chat = model.startChat(messages);
-        
-          let result = await chat.sendMessage(userMessage);
-            console.log(result.response.text());
+      let result = await chat.sendMessage(userMessage);
 
-           
-        
-    }
+ document.querySelector(".chat-window .chat").insertAdjacentHTML(
+            "beforeend",
+            `<div class="model">
+            <p>${result.response.text()}</p>
+            </div>
+            `);
+
+        messages.history.push({
+            role:"user",
+            parts: [{ text: userMessage}],
+        });
+
+        messages.history.push({
+            role: "model",
+            parts: [{ text: result.response.text() }],
+        });
+
+            
+}
 }
 
 
