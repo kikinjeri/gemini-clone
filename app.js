@@ -14,7 +14,8 @@ async function sendMessage() {
     const userMessage = document.querySelector(".chat-window input").value;
 
     if (userMessage.length){
-        document.querySelector(".chat-window input").value = "";
+
+        try {document.querySelector(".chat-window input").value = "";
         document.querySelector(".chat-window .chat").insertAdjacentHTML(
             "beforeend",
             `<div class="user">
@@ -42,7 +43,14 @@ async function sendMessage() {
             parts: [{ text: result.response.text() }],
         });
 
-            
+
+        } catch (error) {
+            document.querySelector(".chat-window .chat").insertAdjacentHTML(`
+                <div class="error">
+                    <p>The message could not be sent. Pleae try again</p>
+                </div>
+            `);
+        }
 }
 }
 
